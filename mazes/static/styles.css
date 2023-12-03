@@ -1,0 +1,88 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    padding: 30px;
+  }
+  
+  a {
+    color: #4caf50;
+  }
+  
+  a:hover {
+    color: #8bc34a;
+  }
+  
+  /* Style for buttons */
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    color: #fff;
+    background-color: #8bc34a;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #4caf50;
+  }
+  
+  /* Style for the header */
+  header {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #435bf4; /* Set your desired header color */
+    color: #000; /* Set the text color for the header */
+  }
+  
+  /* Style for the main content */
+  main {
+    padding: 20px 0;
+    background-color: #000; /* Set your desired background color for the main content */
+    color: #fff; /* Set the text color for the main content */
+    text-align: center;
+  }
+  
+  /* Style for the footer */
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Responsive layout */
+  @media (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+  }
+
+  ul {
+    list-style: none;
+    text-align: center;
+  }
+  
+  ul li {
+    display: inline-block;
+    margin: 0 10px;
+  }
