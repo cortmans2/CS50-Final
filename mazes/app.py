@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Sequence
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import uuid
+from helpers import create_maze
 
 app = Flask(__name__, template_folder='templates')
 
@@ -51,7 +52,8 @@ def play():
     if(request.method == "POST"):
         difficulty = request.form.get("difficulty")
         print(f"maze-{difficulty}.html")
-        return render_template(f"maze_{difficulty}.html")
+        maze = create_maze(difficulty)
+        return render_template(f"maze_{difficulty}.html", maze=maze)
     else:
         return "error"
 
