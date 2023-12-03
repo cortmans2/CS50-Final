@@ -46,17 +46,14 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     return render_template("login.html")
 
-@app.route('/play/small')
-def small():
-    return render_template("maze-small.html")
-
-@app.route('/play/medium')
-def small():
-    return render_template("maze-medium.html")
-
-@app.route('/play/large')
-def small():
-    return render_template("maze-large.html")
+@app.route('/play' , methods=["GET", "POST"])
+def play():
+    if(request.method == "POST"):
+        difficulty = request.form.get("difficulty")
+        print(f"maze-{difficulty}.html")
+        return render_template(f"maze_{difficulty}.html")
+    else:
+        return "error"
 
 if __name__ == "__main__":
    print("reached")
