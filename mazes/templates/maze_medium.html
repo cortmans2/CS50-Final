@@ -1,0 +1,31 @@
+<div class="container">
+
+
+    <!-- Table and Maze -->
+    <table class="info-table">
+        <tr>
+            <td>Time:</td>
+            <td><span id="timer">00:00</span></td>
+        </tr>
+        <tr>
+            <td>Moves:</td>
+            <td id="moves">num_of_moves</td>
+        </tr>
+    </table>
+
+    <div id="maze-medium-container" class="maze-medium-container">
+        {% for row in maze %}
+        {% for cell in row %}
+        {% if cell == '#' %}
+        <div class="maze-medium-cell wall">{{ cell }}</div>
+        {% elif cell == 'O' %}
+        <div class="maze-medium-cell user">{{ cell }}</div>
+        {% elif cell == 'X' %}
+        <div class="maze-medium-cell exit">{{ cell }}</div>
+        {% else %}
+        <div class="maze-medium-cell path">{{ cell }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
