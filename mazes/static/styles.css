@@ -116,3 +116,60 @@ body, h1, h2, h3, p, ul, li {
     text-align: center;
     margin-top: 20px; /* Add some top margin for better spacing */
   }
+  .maze-small-container {
+    display: grid;
+    grid-template-columns: repeat(31, minmax(21px, 1fr));
+    grid-gap: 0;
+}
+
+.maze-medium-container {
+    display: grid;
+    grid-template-columns: repeat(65, minmax(10px, 1fr));
+    grid-gap: 0;
+}
+
+.maze-large-container {
+    display: grid;
+    grid-template-columns: repeat(81, minmax(8px, 1fr));
+    grid-gap: 0;
+}
+
+.maze-small-cell {
+    height: 21px;
+    /* Adjust the height based on your preference */
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0;
+}
+
+.maze-medium-cell {
+    height: 10px;
+    /* Adjust the height based on your preference */
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0;
+}
+
+.maze-large-cell {
+    height: 8px;
+    /* Adjust the height based on your preference */
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0;
+}
+
+.wall {
+    background-color: #222;
+}
+
+.path {
+    background-color: #ffffff;
+}
+
+.user {
+    background-color: #33ff00;
+}
+
+.exit {
+    background-color: #660000;
+}

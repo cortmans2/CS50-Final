@@ -1,31 +1,49 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAC Mazes</title>
+    <!-- Link to the external CSS file -->
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Rest of your HTML content -->
+    <div class="container">
 
 
-    <!-- Table and Maze -->
-    <table class="info-table">
-        <tr>
-            <td>Time:</td>
-            <td><span id="timer">00:00</span></td>
-        </tr>
-        <tr>
-            <td>Moves:</td>
-            <td id="moves">num_of_moves</td>
-        </tr>
-    </table>
+        <!-- Table and Maze -->
+        <table class="info-table">
+            <tr>
+                <td>Time:</td>
+                <td><span id="timer">00:00</span></td>
+            </tr>
+            <tr>
+                <td>Moves:</td>
+                <td id="moves">num_of_moves</td>
+            </tr>
+        </table>
 
-    <div id="maze-large-container" class="maze-large-container">
-        {% for row in maze %}
-        {% for cell in row %}
-        {% if cell == '#' %}
-        <div class="maze-large-cell wall">{{ cell }}</div>
-        {% elif cell == 'O' %}
-        <div class="maze-large-cell user">{{ cell }}</div>
-        {% elif cell == 'X' %}
-        <div class="maze-large-cell exit">{{ cell }}</div>
-        {% else %}
-        <div class="maze-large-cell path">{{ cell }}</div>
-        {% endif %}
-        {% endfor %}
-        {% endfor %}
+        <div id="maze-large-container" class="maze-large-container">
+            {% for row in maze %}
+            {% for cell in row %}
+            {% if cell == '#' %}
+            <div class="maze-large-cell wall">{{ cell }}</div>
+            {% elif cell == 'O' %}
+            <div class="maze-large-cell user">{{ cell }}</div>
+            {% elif cell == 'X' %}
+            <div class="maze-large-cell exit">{{ cell }}</div>
+            {% else %}
+            <div class="maze-large-cell path">{{ cell }}</div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
+
+    <script src="{{ url_for('static', filename='maze.js') }}"></script>
+</body>
+
+</html>
