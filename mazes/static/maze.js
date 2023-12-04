@@ -1,34 +1,52 @@
-document.getElementById('mazeForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    var size = event.submitter.value;
-    startGame(size);
-});
-
-function startGame(size) {
-    window.location.href = `/maze?size=${size}`;
-}
-
 let seconds = 0;
+let milliseconds = 0;
 let numberOfMoves = 0;
 let timerInterval;
+let isArrowKeyReleased = true;
 
 // Function to update the timer
 function updateTimer() {
-    seconds++;
+    milliseconds += 10; // Increment by 100 milliseconds
+
+    if (milliseconds >= 1000) {
+        seconds++;
+        milliseconds = 0;
+    }
+
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    document.getElementById('timer').textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    const formattedMilliseconds = milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds.toString().slice(0, 3);
+
+    document.getElementById('timer').textContent = `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
 }
+
+
 
 // Function to update the moves counter
 function updateMovesCounter() {
-    numberOfMoves++;
-    document.getElementById('moves').textContent = numberOfMoves;
+    // Check if an arrow key is currently pressed and has been released since the last press
+    if (isArrowKeyReleased) {
+        numberOfMoves++;
+        document.getElementById('moves').textContent = numberOfMoves;
+
+        // Set the flag to false to indicate that the key is pressed
+        isArrowKeyReleased = false;
+    }
 }
 
 // Function to start the timer
 function startTimer() {
-    timerInterval = setInterval(updateTimer, 1000);
+    timerInterval = setInterval(updateTimer, 10); // Update every 1000 milliseconds (1 second)
+}
+
+// Function to stop the timer
+function stopTimer() {
+    clearInterval(timerInterval);
+    timerInterval = undefined;
+    isArrowKeyReleased = true; // Reset the flag when stopping the timer
 }
 
 // Event listener for arrow key press
@@ -42,54 +60,17 @@ document.addEventListener('keydown', function (event) {
 
         // Update the moves counter
         updateMovesCounter();
-
-        // Your existing logic for maze movements (replace this with your actual logic)
-        handleMazeMovement(event.key);
     }
 });
 
-// Function to handle maze movement (replace this with your actual logic)
-function handleMazeMovement(key) {
-    // Your maze movement logic here
-}
-
-// Assuming you have a grid represented as a 2D array where '#' represents walls,
-// 'O' represents the user, 'X' represents the exit, and ' ' represents paths.
-const maze = [
-    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-    ['#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', 'X', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
-];
-
-const userPosition = { row: 1, col: 1 }; // Initial position of the user
-
-// Function to update the user's position and move the user div
-function moveUser(direction) {
-    const newRow = userPosition.row + (direction === 'ArrowDown' ? 1 : direction === 'ArrowUp' ? -1 : 0);
-    const newCol = userPosition.col + (direction === 'ArrowRight' ? 1 : direction === 'ArrowLeft' ? -1 : 0);
-
-    // Check if the new position is within the maze boundaries and is a valid path
-    if (newRow >= 0 && newRow < maze.length && newCol >= 0 && newCol < maze[0].length && maze[newRow][newCol] === ' ') {
-        // Move the user div to the new position
-        const userDiv = document.querySelector('.user');
-        userDiv.style.gridRow = newRow + 1; // Adjust for 1-based grid
-        userDiv.style.gridColumn = newCol + 1; // Adjust for 1-based grid
-
-        // Update the user's position
-        userPosition.row = newRow;
-        userPosition.col = newCol;
-    }
-}
-
-// Event listener for arrow key press
-document.addEventListener('keydown', function (event) {
-    // Check if an arrow key is pressed
+// Event listener for arrow key release
+document.addEventListener('keyup', function (event) {
+    // Check if an arrow key is released
     if (event.key.startsWith('Arrow')) {
-        // Update the user's position based on the arrow key
-        moveUser(event.key);
+        // Set the flag to true to indicate that the key is released
+        isArrowKeyReleased = true;
     }
 });
+
+// Example usage to stop the timer (call this when the game is completed, for example)
+// stopTimer();
