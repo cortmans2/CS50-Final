@@ -36,23 +36,29 @@ $(document).ready(function () {
         }
     }
 
-    // Event listener for arrow key press
-    $(document).keydown(function (event) {
-        if (event.key.startsWith('Arrow')) {
-            // Map arrow keys to directions
-            var direction;
-            if (event.key === 'ArrowUp') {
-                direction = 'up';
-            } else if (event.key === 'ArrowDown') {
-                direction = 'down';
-            } else if (event.key === 'ArrowLeft') {
-                direction = 'left';
-            } else if (event.key === 'ArrowRight') {
-                direction = 'right';
-            }
+// Event listener for arrow key press and WASD
+$(document).keydown(function (event) {
+    var direction;
 
-            // Move the user
-            moveUser(direction);
-        }
-    });
+    // Map arrow keys to directions
+    if (event.key.startsWith('Arrow')) {
+        direction = event.key.slice(5).toLowerCase();
+    }
+
+    // Map WASD keys to directions
+    if (event.key.toLowerCase() === 'w') {
+        direction = 'up';
+    } else if (event.key.toLowerCase() === 's') {
+        direction = 'down';
+    } else if (event.key.toLowerCase() === 'a') {
+        direction = 'left';
+    } else if (event.key.toLowerCase() === 'd') {
+        direction = 'right';
+    }
+
+    // Move the user
+    if (direction) {
+        moveUser(direction);
+    }
+});
 });
