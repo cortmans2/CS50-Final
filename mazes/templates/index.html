@@ -13,11 +13,19 @@
 <body>
     <h1>Welcome to the Maze!</h1>
     <p>Please choose a difficulty:</p>
-        <form action="/play" method="post">
+    <form action="/play" method="post">
         <input type="submit" name="difficulty" value="small">
         <input type="submit" name="difficulty" value="medium">
         <input type="submit" name="difficulty" value="large">
     </form>
-    
+    <p>You are signed in as:</p>
+    <p>Guest</p>
+    <p>
+        <a href="/login">Login</a>
+        <span class="divider">|</span>
+        <a href="/logout">Logout</a>
+        <span class="divider">|</span>
+        <a href="/create_account">Create Account</a>
+    </p>  
 </body>
 </html>
