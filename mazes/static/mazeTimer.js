@@ -71,6 +71,3 @@ document.addEventListener('keyup', function (event) {
         isArrowKeyReleased = true;
     }
 });
-
-// Example usage to stop the timer (call this when the game is completed, for example)
-// stopTimer();
