@@ -226,3 +226,9 @@ form input[type="password"]:focus {
   outline: none;
   border-color: #4caf50;
 }
+
+input {
+  padding: 10px;
+  margin-bottom: 10px;
+  font-family: 'Press Start 2P', cursive;
+}

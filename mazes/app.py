@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__, template_folder='templates')
+app.secret_key = '1cd3c5393aa34f93909f4b047246f6dd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -54,7 +55,7 @@ def login():
             # Store user information in the session
             session['user_id'] = user.id
             flash('Login successful!', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect("/")
         else:
             flash('Login failed. Please check your username and password.', 'error')
     return render_template("login.html")
