@@ -186,6 +186,7 @@ body, h1, h2, h3, p, ul, li {
 .auth-links {
   display: flex; /* Use flexbox to align items horizontally */
   align-items: center; /* Center items vertically */
+  text-align: center;
 }
 
 .auth-links a {
