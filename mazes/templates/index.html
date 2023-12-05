@@ -18,8 +18,11 @@
         <input type="submit" name="difficulty" value="medium">
         <input type="submit" name="difficulty" value="large">
     </form>
-    <p>You are signed in as:</p>
-    <span id="current-user" style = "text-align: center;">Guest</span>
+    {% if current_user %}
+        <p>Logged in as: {{ current_user.username }}</p>
+    {% else %}
+        <p>Guest</p>
+    {% endif %}
     <p>
         <a href="/login">Login</a>
         <span class="divider">|</span>

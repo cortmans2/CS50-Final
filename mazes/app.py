@@ -21,6 +21,8 @@ class User(db.Model):
 
 @app.route('/' , methods=["GET"])
 def index():
+    if 'user_id' in session:
+        return render_template("index.html", current_user=User.query.filter_by(id=session['user_id']).first())
     return render_template("index.html")
 
 @app.route('/create_account', methods=["GET", "POST"])
@@ -48,6 +50,7 @@ def create_account():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    session.clear()
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -63,6 +66,11 @@ def login():
         else:
             return "error"
     return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/play' , methods=["GET", "POST"])
 def play():
