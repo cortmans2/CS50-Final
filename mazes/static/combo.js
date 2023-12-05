@@ -59,7 +59,7 @@ document.addEventListener('keydown', function (event) {
         }
 
         // Update the moves counter
-        updateMovesCounter();
+        //updateMovesCounter();
     }
 });
 
@@ -72,12 +72,19 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
+let initialUserIndex; // Variable to store the initial user index
+
 $(document).ready(function () {
     // Function to move the user in a specific direction
     function moveUser(direction) {
         // Get the current user position
         var userCell = $('.maze-small-cell.user');
         var userIndex = userCell.index();
+
+        // Save the initial user index on the first move
+        if (initialUserIndex === undefined) {
+            initialUserIndex = userIndex;
+        }
 
         // Get the number of columns in the grid
         var numCols = 31
@@ -107,6 +114,14 @@ $(document).ready(function () {
             // Move the user by swapping classes
             userCell.removeClass('user');
             newCell.addClass('user');
+
+            // Check if the user position has changed
+            if (initialUserIndex !== newUserIndex) {
+                // Update the moves counter
+                updateMovesCounter();
+                // Update the initial user index
+                initialUserIndex = newUserIndex;
+            }
         }
     }
 
