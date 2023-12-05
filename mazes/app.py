@@ -33,6 +33,7 @@ def create_account():
             flash('Username or email already exists. Please choose another.', 'error')
         else:
             # Create a new user
+            print("new")
             new_user = User(username=username, password=password)
             db.session.add(new_user)
             db.session.commit()
