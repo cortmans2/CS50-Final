@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OAC Mazes</title>
     <!-- Link to the external CSS file -->
+    <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
     <link href="/static/styles.css" rel="stylesheet">
 </head>
 
@@ -18,7 +22,7 @@
         <table class="info-table">
             <tr>
                 <td>Time:</td>
-                <td><span id="timer">00:00</span></td>
+                <td><span id="timer">00:00:000</span></td>
             </tr>
             <tr>
                 <td>Moves:</td>
@@ -43,7 +47,8 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='maze.js') }}"></script>
+    <script src="{{ url_for('static', filename='mazeStats.js') }}"></script>
+    <script src="{{ url_for('static', filename='movementSmall.js') }}"></script>
 </body>
 
 </html>
