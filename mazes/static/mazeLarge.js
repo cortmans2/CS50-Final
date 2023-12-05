@@ -42,10 +42,10 @@ function moveUser(direction) {
     }
 
     // Get the number of columns in the grid
-    var numCols = 31;
+    var numCols = 81;
 
     // Calculate the number of rows in the grid
-    var numRows = 31;
+    var numRows = 81;
 
     // Calculate the new position based on the direction
     var newUserIndex;

@@ -4,6 +4,8 @@ let numberOfMoves = 0;
 let timerInterval;
 let isArrowKeyReleased = true;
 let initialUserIndex;
+var exitCellClass = 'exit'; // Replace with the actual class name of the exit cell
+var gameEnded = false; // Variable to track whether the game has ended
 
 // Function to update the timer
 function updateTimer() {
@@ -32,22 +34,19 @@ function updateMovesCounter() {
 
 // Function to move the user in a specific direction
 function moveUser(direction) {
-    // Get the current user position
+    if (gameEnded) {
+        return; // Don't allow movement if the game has ended
+    }
+
     var userCell = $('.maze-small-cell.user');
     var userIndex = userCell.index();
 
-    // Save the initial user index on the first move
     if (initialUserIndex === undefined) {
         initialUserIndex = userIndex;
     }
 
-    // Get the number of columns in the grid
     var numCols = 31;
-
-    // Calculate the number of rows in the grid
     var numRows = 31;
-
-    // Calculate the new position based on the direction
     var newUserIndex;
 
     if (direction === 'up' && userIndex - numCols >= 0) {
@@ -59,60 +58,82 @@ function moveUser(direction) {
     } else if (direction === 'right' && (userIndex + 1) % numCols !== 0) {
         newUserIndex = userIndex + 1;
     } else {
-        // Invalid move
         return;
     }
 
-    // Check if the new position is valid (not a wall)
     var newCell = $('.maze-small-cell').eq(newUserIndex);
+
+    // Check if the new position is the exit cell
+    if (newCell.hasClass(exitCellClass)) {
+        stopTimer();
+        isArrowKeyReleased = false;
+        showPopup();
+        gameEnded = true; // Set the gameEnded variable to true
+        return;
+    }
+
     if (newCell.hasClass('path') || newCell.hasClass('user')) {
-        // Move the user by swapping classes
         userCell.removeClass('user');
         newCell.addClass('user');
 
-        // Check if the user position has changed
         if (initialUserIndex !== newUserIndex) {
-            // Update the moves counter
             updateMovesCounter();
-            // Update the initial user index
             initialUserIndex = newUserIndex;
         }
     }
 }
 
+function showPopup() {
+    // Calculate the total time in seconds
+    var totalTime = seconds + milliseconds / 1000;
+
+    // Create a div for the popup
+    var popup = $('<div class="popup">');
+
+    // Add content to the popup (time and moves)
+    popup.html(`<p>Complete!<br>Your Time: ${formattedTime(totalTime)}<br>Moves: ${numberOfMoves}</p>`);
+
+    // Append the popup to the body
+    $('body').append(popup);
+}
+
+// Function to format time
+function formattedTime(totalTime) {
+    const minutes = Math.floor(totalTime / 60);
+    const remainingSeconds = totalTime % 60;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds.toFixed(3);
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+
 // Function to start the timer
 function startTimer() {
-    timerInterval = setInterval(updateTimer, 10); // Update every 1000 milliseconds (1 second)
+    timerInterval = setInterval(updateTimer, 10);
 }
 
 // Function to stop the timer
 function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = undefined;
-    isArrowKeyReleased = true; // Reset the flag when stopping the timer
+    isArrowKeyReleased = true;
 }
 
-// Event listener for arrow key press
 document.addEventListener('keydown', function (event) {
-    // Check if an arrow key is pressed
     if (event.key.startsWith('Arrow')) {
-        // Start the timer if it hasn't started yet
         if (!timerInterval) {
             startTimer();
         }
     }
 });
 
-// Event listener for arrow key press and WASD
 $(document).keydown(function (event) {
     var direction;
 
-    // Map arrow keys to directions
     if (event.key.startsWith('Arrow')) {
         direction = event.key.slice(5).toLowerCase();
     }
 
-    // Map WASD keys to directions
     if (event.key.toLowerCase() === 'w') {
         direction = 'up';
     } else if (event.key.toLowerCase() === 's') {
@@ -123,17 +144,13 @@ $(document).keydown(function (event) {
         direction = 'right';
     }
 
-    // Move the user
-    if (direction) {
+    if (direction && isArrowKeyReleased) {
         moveUser(direction);
     }
 });
 
-// Event listener for arrow key release
 $(document).keyup(function (event) {
-    // Check if an arrow key is released
     if (event.key.startsWith('Arrow')) {
-        // Set the flag to true to indicate that the key is released
         isArrowKeyReleased = true;
     }
 });
