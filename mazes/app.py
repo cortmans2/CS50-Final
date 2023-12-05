@@ -5,6 +5,7 @@ import uuid
 from helpers import create_maze
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '1cd3c5393aa34f93909f4b047246f6dd'
@@ -28,18 +29,20 @@ def create_account():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Check if the username or email already exists
-        if User.query.filter_by(username=username).first() or User.query.filter_by(password=password).first():
-            flash('Username or email already exists. Please choose another.', 'error')
+        # Check if the username already exists
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists. Please choose another.', 'error')
         else:
+            # Hash the password before storing it
+            hashed_password = generate_password_hash(password, method='sha256')
+
             # Create a new user
-            print("new")
-            new_user = User(username=username, password=password)
+            new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
 
             flash('Account created successfully! You can now log in.', 'success')
-            return redirect(url_for('login'))  # Assuming you have a login route
+            return redirect(url_for('login'))
 
     return render_template("create_account.html")
 
