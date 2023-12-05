@@ -61,7 +61,7 @@ def login():
             flash('Login successful!', 'success')
             return redirect("/")
         else:
-            flash('Login failed. Please check your username and password.', 'error')
+            return "error"
     return render_template("login.html")
 
 @app.route('/play' , methods=["GET", "POST"])
