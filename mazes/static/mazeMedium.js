@@ -4,7 +4,6 @@ let numberOfMoves = 0;
 let timerInterval;
 let isArrowKeyReleased = true;
 let initialUserIndex;
-var exitCellClass = 'exit'; // Replace with the actual class name of the exit cell
 var gameEnded = false; // Variable to track whether the game has ended
 
 // Function to update the timer
@@ -68,7 +67,11 @@ function moveUser(direction) {
     var newCell = $('.maze-medium-cell').eq(newUserIndex);
 
     // Check if the new position is the exit cell
-    if (newCell.hasClass(exitCellClass)) {
+    if (newCell.hasClass('exit')) {
+        userCell.removeClass('user');
+        userCell.addClass('user-trail');
+        userCell.removeClass('exit');
+        newCell.addClass('user');
         gameEnded = true; // Set the gameEnded variable to true
         stopTimer();
         isArrowKeyReleased = false;
@@ -78,10 +81,24 @@ function moveUser(direction) {
 
     if (newCell.hasClass('path') || newCell.hasClass('user')) {
         userCell.removeClass('user');
+        userCell.addClass('user-trail');
         newCell.addClass('user');
+        //newCell.removeClass('user-trail');
+        if (newCell.hasClass('user-trail'))
+        {
+            newCell.addClass('user');
+            userCell.removeClass('user-trail');
+        }
 
         if (initialUserIndex !== newUserIndex) {
             updateMovesCounter();
+            if ($('.maze-medium-cell').eq(newUserIndex).hasClass('user-trail')) {
+                $('.maze-medium-cell').eq(newUserIndex).removeClass('user-trail');
+            }
+            //else {
+            //    $('.maze-medium-cell').eq(initialUserIndex).removeClass('user-trail');
+            //    $('.maze-medium-cell').eq(newUserIndex).addClass('user');
+            //}
             initialUserIndex = newUserIndex;
         }
     }

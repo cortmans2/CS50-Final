@@ -37,9 +37,9 @@
             {% if cell == '#' %}
             <div class="maze-small-cell wall">{{ cell }}</div>
             {% elif cell == 'O' %}
-            <div class="maze-small-cell user">{{ cell }}</div>
+            <div class="maze-small-cell path user">{{ cell }}</div>
             {% elif cell == 'X' %}
-            <div class="maze-small-cell exit">{{ cell }}</div>
+            <div class="maze-small-cell path exit">{{ cell }}</div>
             {% else %}
             <div class="maze-small-cell path">{{ cell }}</div>
             {% endif %} 
