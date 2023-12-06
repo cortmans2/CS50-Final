@@ -5,26 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OAC Mazes</title>
+    <!-- Link to the external CSS file -->
     <script
     src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
     crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link href="/static/styles.css" rel="stylesheet">
 </head>
+
 <body>
-    <table>
-        <tr>
-            <td class="table-label">Time:</td>
-            <td>00:00:000</td>
-        </tr>
-        <tr>
-            <td class="table-label">Moves:</td>
-            <td id="moves"></td>
-        </tr>
-    </table>
+    <!-- Rest of your HTML content -->
     <div class="container">
+
+
         <!-- Table and Maze -->
+        <table class="info-table">
+            <tr>
+                <td>Time:</td>
+                <td><span id="timer">00:00:000</span></td>
+            </tr>
+            <tr>
+                <td>Moves:</td>
+                <td id="moves">0</td>
+            </tr>
+        </table>
+
         <div id="maze-small-container" class="maze-small-container">
             {% for row in maze %}
             {% for cell in row %}
@@ -36,12 +41,14 @@
             <div class="maze-small-cell exit">{{ cell }}</div>
             {% else %}
             <div class="maze-small-cell path">{{ cell }}</div>
-            {% endif %}
+            {% endif %} 
             {% endfor %}
             {% endfor %}
         </div>
     </div>
-    <script src="{{ url_for('static', filename='mazeSmall.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='mazeStats.js') }}"></script>
+    <script src="{{ url_for('static', filename='movementSmall.js') }}"></script>
 </body>
 
 </html>
