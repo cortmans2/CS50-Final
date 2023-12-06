@@ -3,8 +3,9 @@ from sqlalchemy import Column, Integer, String, Sequence
 import uuid
 from helpers import create_maze
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '1cd3c5393aa34f93909f4b047246f6dd'
@@ -31,8 +32,10 @@ def create_account():
         password = request.form.get('password')
 
         # Check if the username already exists
-        if User.query.filter_by(username=username).first():
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
             flash('Username already exists. Please choose another.', 'error')
+            return "error"
         else:
             # Hash the password before storing it
             hashed_password = generate_password_hash(password)
@@ -41,6 +44,11 @@ def create_account():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
+
+            # Print username and hashed password safely
+            print(new_user.username)
+            if hasattr(new_user, 'password'):
+                print(new_user.password)
 
             flash('Account created successfully! You can now log in.', 'success')
             return redirect(url_for('login'))
@@ -54,16 +62,18 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Replace with your actual authentication logic (e.g., querying the database)
-        user = User.query.filter_by(username=username, password=password).first()
+        # Query the user by username
+        user = User.query.filter_by(username=username).first()
 
-        if user:
-            # Store user information in the session
+        if user and check_password_hash(user.password, password):
+            # Passwords match, log in the user
             session['user_id'] = user.id
             flash('Login successful!', 'success')
             return redirect("/")
         else:
-            return "error"
+            flash('Invalid username or password. Please try again.', 'error')
+            return redirect("/login")
+
     return render_template("login.html")
 
 @app.route('/logout')
