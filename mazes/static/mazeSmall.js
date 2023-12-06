@@ -9,6 +9,10 @@ var gameEnded = false; // Variable to track whether the game has ended
 
 // Function to update the timer
 function updateTimer() {
+    if (gameEnded){
+        return;
+    }
+    console.log("Updating timer");
     milliseconds += 10; // Increment by 100 milliseconds
 
     if (milliseconds >= 1000) {
@@ -65,10 +69,10 @@ function moveUser(direction) {
 
     // Check if the new position is the exit cell
     if (newCell.hasClass(exitCellClass)) {
+        gameEnded = true; // Set the gameEnded variable to true
         stopTimer();
         isArrowKeyReleased = false;
         showPopup();
-        gameEnded = true; // Set the gameEnded variable to true
         return;
     }
 
@@ -91,14 +95,23 @@ function showPopup() {
     var popup = $('<div class="popup">');
 
     // Add content to the popup (time and moves)
-    popup.html(`<p>Complete!<br>Your Time: ${formattedTime(totalTime)}<br>Moves: ${numberOfMoves}</p>`);
+    popup.html(`
+    <p>Complete!
+    <br>
+    Your Time: ${formattedTotalTime(totalTime)}
+    <br>
+    Moves: ${numberOfMoves}
+    </p>
+    <br>
+    <a href="/play">Play Again</a>
+    <a href="/">Main Menu</a>`);
 
     // Append the popup to the body
     $('body').append(popup);
 }
 
 // Function to format time
-function formattedTime(totalTime) {
+function formattedTotalTime(totalTime) {
     const minutes = Math.floor(totalTime / 60);
     const remainingSeconds = totalTime % 60;
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
@@ -109,18 +122,23 @@ function formattedTime(totalTime) {
 
 // Function to start the timer
 function startTimer() {
+    console.log("Timer started");
     timerInterval = setInterval(updateTimer, 10);
 }
 
 // Function to stop the timer
 function stopTimer() {
+    console.log("Timer stopped");
     clearInterval(timerInterval);
     timerInterval = undefined;
     isArrowKeyReleased = true;
 }
 
 document.addEventListener('keydown', function (event) {
-    if (event.key.startsWith('Arrow')) {
+    if (event.key.startsWith('Arrow')|| ['w', 'a', 's', 'd'].includes(event.key.toLowerCase())) {
+        if (gameEnded){
+            return;
+        }
         if (!timerInterval) {
             startTimer();
         }
