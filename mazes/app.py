@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from sqlalchemy import Column, Integer, String, Sequence
-from sqlalchemy.orm import sessionmaker
 import uuid
 from helpers import create_maze
 from flask_sqlalchemy import SQLAlchemy

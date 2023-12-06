@@ -4,7 +4,7 @@ body, h1, h2, h3, p, ul, li {
     padding: 0;
   }
   
-  body {
+  body, table {
     font-family: 'Press Start 2P', cursive;
     background-color: #000;
     color: #fff;
@@ -202,6 +202,10 @@ body, h1, h2, h3, p, ul, li {
 
 .divider {
   color: #8bc34a;
+}
+
+.table-label {
+  font-family: 'Press Start 2P', cursive;
 }
 
 form {
