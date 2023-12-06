@@ -10,6 +10,7 @@
     src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
     crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link href="/static/styles.css" rel="stylesheet">
 </head>
 
@@ -26,7 +27,7 @@
             </tr>
             <tr>
                 <td>Moves:</td>
-                <td id="moves"></td>
+                <td id="moves">0</td>
             </tr>
         </table>
 
@@ -41,13 +42,14 @@
             <div class="maze-small-cell exit">{{ cell }}</div>
             {% else %}
             <div class="maze-small-cell path">{{ cell }}</div>
-            {% endif %}
+            {% endif %} 
             {% endfor %}
             {% endfor %}
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='mazeSmall.js') }}"></script>
+    <script src="{{ url_for('static', filename='mazeStats.js') }}"></script>
+    <script src="{{ url_for('static', filename='movementSmall.js') }}"></script>
 </body>
 
 </html>

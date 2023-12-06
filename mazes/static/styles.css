@@ -4,7 +4,7 @@ body, h1, h2, h3, p, ul, li {
     padding: 0;
   }
   
-  body {
+  body, table {
     font-family: 'Press Start 2P', cursive;
     background-color: #000;
     color: #fff;
@@ -56,15 +56,15 @@ body, h1, h2, h3, p, ul, li {
   header {
     text-align: center;
     padding: 20px 0;
-    background-color: #435bf4; /* Set your desired header color */
-    color: #000; /* Set the text color for the header */
+    background-color: #435bf4;
+    color: #000; 
   }
   
   /* Style for the main content */
   main {
     padding: 20px 0;
-    background-color: #000; /* Set your desired background color for the main content */
-    color: #fff; /* Set the text color for the main content */
+    background-color: #000; 
+    color: #fff; 
     text-align: center;
   }
   
@@ -137,24 +137,21 @@ body, h1, h2, h3, p, ul, li {
 }
 
 .maze-small-cell {
-    height: 21px;
-    /* Adjust the height based on your preference */
+    height: 25px;
     box-sizing: border-box;
     text-align: center;
     font-size: 0;
 }
 
 .maze-medium-cell {
-    height: 10px;
-    /* Adjust the height based on your preference */
+    height: 12px;
     box-sizing: border-box;
     text-align: center;
     font-size: 0;
 }
 
 .maze-large-cell {
-    height: 8px;
-    /* Adjust the height based on your preference */
+    height: 10px;
     box-sizing: border-box;
     text-align: center;
     font-size: 0;
@@ -204,6 +201,10 @@ body, h1, h2, h3, p, ul, li {
   color: #8bc34a;
 }
 
+.table-label {
+  font-family: 'Press Start 2P', cursive;
+}
+
 form {
   text-align: center;
 }
@@ -232,4 +233,15 @@ input {
   padding: 10px;
   margin-bottom: 10px;
   font-family: 'Press Start 2P', cursive;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+  width: 90%; 
+  margin: 0 auto; /* Center the container */
+}
+
+.info-table {
+  margin-right: 5px;
 }
