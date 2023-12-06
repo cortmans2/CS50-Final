@@ -35,7 +35,7 @@ def create_account():
             flash('Username already exists. Please choose another.', 'error')
         else:
             # Hash the password before storing it
-            hashed_password = generate_password_hash(password, method='sha256')
+            hashed_password = generate_password_hash(password)
 
             # Create a new user
             new_user = User(username=username, password=hashed_password)
