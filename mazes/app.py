@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    id =db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(1000), nullable=False)
 
@@ -27,6 +27,7 @@ def index():
 
 @app.route('/create_account', methods=["GET", "POST"])
 def create_account():
+    session.clear()
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
