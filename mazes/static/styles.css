@@ -262,3 +262,11 @@ input {
 .maze-small-cell.user-trail {
   background-color: rgba(255, 255, 0, 0.5); /* Change color and opacity as needed */
 }
+
+.maze-medium-cell.user-trail {
+  background-color: rgba(255, 255, 0, 0.5); /* Change color and opacity as needed */
+}
+
+.maze-large-cell.user-trail {
+  background-color: rgba(255, 255, 0, 0.5); /* Change color and opacity as needed */
+}
