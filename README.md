@@ -1,1 +1,3 @@
-information son
+Our website has seven different pages. The first one is index.html, or our homepage, where the user can navigate to the other six pages in the site. Three of the other pages are to handle accounts and sessions, and the other three are where the user can interact with the mazes. There is a prompt that tells the user who they are logged in as, and it changes as the user clicks the logout button or logs into a new account. If the user is not logged into an account, it will tell the user they are signed in as "Guest".
+
+The maze pages are html pages with
