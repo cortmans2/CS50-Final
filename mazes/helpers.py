@@ -22,6 +22,10 @@ def create_maze(size):
                 maze[row + dr // 2][col + dc // 2] = ' '
                 recursive_backtracker(next_row, next_col)
 
+    # Introduce dead-ends with a certain probability
+    if random.random() < 0.2:  # Adjust the probability as needed
+        maze[row][col] = '#'
+
     start_row, start_col = 1, 1
     recursive_backtracker(start_row, start_col)
 
