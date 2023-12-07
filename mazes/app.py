@@ -61,7 +61,7 @@ def index():
 
     if 'user_id' in session:
         return render_template("index.html", current_user=User.query.filter_by(id=session['user_id']).first(), fastest_times=fastest_times)
-    return render_template("index.html")
+    return render_template("index.html", fastest_times=fastest_times)
 
 @app.route('/create_account', methods=["GET", "POST"])
 def create_account():

@@ -41,11 +41,9 @@
             {% for maze_type, entries in fastest_times.items() %}
                 <div class="maze-leaderboard">
                     <h3>{{ maze_type | capitalize }} Maze</h3>
-                    <ul>
                         {% for entry in entries %}
-                            <li>{{ entry.time }} - {{ entry.user.username }}</li>
+                            <p>{{ entry.time }} - {{ entry.user.username }}</p>
                         {% endfor %}
-                    </ul>
                 </div>
             {% endfor %}
         </div>
