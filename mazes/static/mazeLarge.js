@@ -48,8 +48,8 @@ function moveUser(direction) {
         initialUserIndex = userIndex;
     }
 
-    var numCols = 91;
-    var numRows = 91;
+    var numCols = 81;
+    var numRows = 81;
     var newUserIndex;
 
     if (direction === 'up' && userIndex - numCols >= 0) {
