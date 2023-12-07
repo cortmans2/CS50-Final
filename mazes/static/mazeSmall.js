@@ -120,10 +120,10 @@ function showPopup() {
     Moves: ${numberOfMoves}
     </p>
     <br>
-    <p>
-    <a href="/" style="text-align:center">Main Menu</a>
-    </p>`
-    );
+    <form action="/" method="get">
+        <input type="submit" value="Main Menu">
+    </form>`);
+
     // Append the popup to the body
     $('body').append(popup);
 
