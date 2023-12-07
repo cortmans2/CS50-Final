@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '1cd3c5393aa34f93909f4b047246f6dd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id =db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(1000), nullable=False)
 
 @app.route('/' , methods=["GET"])
 def index():
@@ -35,10 +35,10 @@ def create_account():
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists. Please choose another.', 'error')
-            return "error"
+            return "Username already exists"
         else:
             # Hash the password before storing it
-            hashed_password = generate_password_hash(password)
+            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
             # Create a new user
             new_user = User(username=username, password=hashed_password)
@@ -64,15 +64,19 @@ def login():
 
         # Query the user by username
         user = User.query.filter_by(username=username).first()
+        print("Entered Password:", password)
+        print("Hashed Password in Database:", user.password)
+
+        if not check_password_hash(user.password, password):
+            print("hello")
 
         if user and check_password_hash(user.password, password):
             # Passwords match, log in the user
             session['user_id'] = user.id
-            flash('Login successful!', 'success')
+            print('Login successful!', 'success')
             return redirect("/")
         else:
-            flash('Invalid username or password. Please try again.', 'error')
-            return redirect("/login")
+            return "invalid password"
 
     return render_template("login.html")
 
