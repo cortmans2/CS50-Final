@@ -8,12 +8,14 @@ body, h1, h2, h3, p, ul, li {
     font-family: 'Press Start 2P', cursive;
     background-color: #000;
     color: #fff;
+    margin-top: 10px;
   }
   
   .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    width: 90%;
+    margin: 0 auto; /* Center the container */
   }
   
   p {
@@ -136,25 +138,24 @@ body, h1, h2, h3, p, ul, li {
     grid-gap: 0;
 }
 
-.maze-small-cell {
-    height: 25px;
+.maze-small-cell,
+.maze-medium-cell,
+.maze-large-cell {
     box-sizing: border-box;
     text-align: center;
     font-size: 0;
+}
+
+.maze-small-cell {
+  height: 23px; 
 }
 
 .maze-medium-cell {
-    height: 12px;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 0;
+  height: 11px;
 }
 
 .maze-large-cell {
-    height: 10px;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 0;
+  height: 9px; 
 }
 
 .wall {
@@ -233,13 +234,6 @@ input {
   padding: 10px;
   margin-bottom: 10px;
   font-family: 'Press Start 2P', cursive;
-}
-
-.container {
-  display: flex;
-  align-items: flex-start; /* Align items to the top */
-  width: 90%; 
-  margin: 0 auto; /* Center the container */
 }
 
 .info-table {

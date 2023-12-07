@@ -24,11 +24,16 @@
         <p>Guest</p>
     {% endif %}
     <p>
+        {% if not current_user %}
         <a href="/login">Login</a>
         <span class="divider">|</span>
+        {% endif %}
+        {% if current_user %}
         <a href="/logout">Logout</a>
-        <span class="divider">|</span>
-        <a href="/create_account">Create Account</a>
+        {% endif %}
+        {% if not current_user %}
+            <a href="/create_account">Create Account</a>
+        {% endif %}
     </p>
 </body>
 </html>

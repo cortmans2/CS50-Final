@@ -18,5 +18,8 @@
         <br>
         <button type="submit" class="button">Create Account</button>
     </form>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
 </body>
 </html>

@@ -27,6 +27,7 @@ def index():
 
 @app.route('/create_account', methods=["GET", "POST"])
 def create_account():
+    error_message = None
     session.clear()
     if request.method == 'POST':
         username = request.form.get('username')
@@ -35,8 +36,8 @@ def create_account():
         # Check if the username already exists
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            flash('Username already exists. Please choose another.', 'error')
-            return "Username already exists"
+            error_message = "Username already in use"
+            return render_template("create_account.html", error_message=error_message)
         else:
             # Hash the password before storing it
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
@@ -58,6 +59,8 @@ def create_account():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    error_message = None
+
     session.clear()
     if request.method == 'POST':
         username = request.form.get('username')
@@ -65,21 +68,23 @@ def login():
 
         # Query the user by username
         user = User.query.filter_by(username=username).first()
-        print("Entered Password:", password)
-        print("Hashed Password in Database:", user.password)
 
-        if not check_password_hash(user.password, password):
-            print("hello")
-
-        if user and check_password_hash(user.password, password):
-            # Passwords match, log in the user
-            session['user_id'] = user.id
-            print('Login successful!', 'success')
-            return redirect("/")
+        if user:
+            # User with the provided username exists
+            if check_password_hash(user.password, password):
+                # Passwords match, log in the user
+                session['user_id'] = user.id
+                flash('Login successful!', 'success')
+                return redirect("/")
+            else:
+                error_message = 'Invalid password'
+                return render_template("login.html", error_message=error_message)
         else:
-            return "invalid password"
-
-    return render_template("login.html")
+            # User with the provided username does not exist
+            error_message = 'User not found'
+            return render_template("login.html", error_message=error_message)
+    print(error_message)
+    return render_template("login.html", error_message=error_message)
 
 @app.route('/logout')
 def logout():

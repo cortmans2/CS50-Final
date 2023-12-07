@@ -120,8 +120,9 @@ function showPopup() {
     Moves: ${numberOfMoves}
     </p>
     <br>
-    <a href="/play">Play Again</a>
-    <a href="/">Main Menu</a>`);
+    <p>
+    <a href="/">Main Menu</a>
+    </p>`);
 
     // Append the popup to the body
     $('body').append(popup);
