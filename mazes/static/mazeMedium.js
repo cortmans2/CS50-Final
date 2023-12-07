@@ -4,9 +4,14 @@ let numberOfMoves = 0;
 let timerInterval;
 let isArrowKeyReleased = true;
 let initialUserIndex;
+var gameEnded = false; // Variable to track whether the game has ended
 
 // Function to update the timer
 function updateTimer() {
+    if (gameEnded){
+        return;
+    }
+    console.log("Updating timer");
     milliseconds += 10; // Increment by 100 milliseconds
 
     if (milliseconds >= 1000) {
@@ -32,22 +37,19 @@ function updateMovesCounter() {
 
 // Function to move the user in a specific direction
 function moveUser(direction) {
-    // Get the current user position
+    if (gameEnded) {
+        return; // Don't allow movement if the game has ended
+    }
+
     var userCell = $('.maze-medium-cell.user');
     var userIndex = userCell.index();
 
-    // Save the initial user index on the first move
     if (initialUserIndex === undefined) {
         initialUserIndex = userIndex;
     }
 
-    // Get the number of columns in the grid
     var numCols = 65;
-
-    // Calculate the number of rows in the grid
     var numRows = 65;
-
-    // Calculate the new position based on the direction
     var newUserIndex;
 
     if (direction === 'up' && userIndex - numCols >= 0) {
@@ -59,60 +61,114 @@ function moveUser(direction) {
     } else if (direction === 'right' && (userIndex + 1) % numCols !== 0) {
         newUserIndex = userIndex + 1;
     } else {
-        // Invalid move
         return;
     }
 
-    // Check if the new position is valid (not a wall)
     var newCell = $('.maze-medium-cell').eq(newUserIndex);
-    if (newCell.hasClass('path') || newCell.hasClass('user')) {
-        // Move the user by swapping classes
-        userCell.removeClass('user');
-        newCell.addClass('user');
 
-        // Check if the user position has changed
+    // Check if the new position is the exit cell
+    if (newCell.hasClass('exit')) {
+        userCell.removeClass('user');
+        userCell.addClass('user-trail');
+        userCell.removeClass('exit');
+        newCell.addClass('user');
+        gameEnded = true; // Set the gameEnded variable to true
+        stopTimer();
+        isArrowKeyReleased = false;
+        showPopup();
+        return;
+    }
+
+    if (newCell.hasClass('path') || newCell.hasClass('user')) {
+        userCell.removeClass('user');
+        userCell.addClass('user-trail');
+        newCell.addClass('user');
+        //newCell.removeClass('user-trail');
+        if (newCell.hasClass('user-trail'))
+        {
+            newCell.addClass('user');
+            userCell.removeClass('user-trail');
+        }
+
         if (initialUserIndex !== newUserIndex) {
-            // Update the moves counter
             updateMovesCounter();
-            // Update the initial user index
+            if ($('.maze-medium-cell').eq(newUserIndex).hasClass('user-trail')) {
+                $('.maze-medium-cell').eq(newUserIndex).removeClass('user-trail');
+            }
+            //else {
+            //    $('.maze-medium-cell').eq(initialUserIndex).removeClass('user-trail');
+            //    $('.maze-medium-cell').eq(newUserIndex).addClass('user');
+            //}
             initialUserIndex = newUserIndex;
         }
     }
 }
 
+function showPopup() {
+    // Calculate the total time in seconds
+    var totalTime = seconds + milliseconds / 1000;
+
+    // Create a div for the popup
+    var popup = $('<div class="popup">');
+
+    // Add content to the popup (time and moves)
+    popup.html(`
+    <p>Complete!
+    <br>
+    Your Time: ${formattedTotalTime(totalTime)}
+    <br>
+    Moves: ${numberOfMoves}
+    </p>
+    <br>
+    <a href="/play">Play Again</a>
+    <a href="/">Main Menu</a>`);
+
+    // Append the popup to the body
+    $('body').append(popup);
+}
+
+// Function to format time
+function formattedTotalTime(totalTime) {
+    const minutes = Math.floor(totalTime / 60);
+    const remainingSeconds = totalTime % 60;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds.toFixed(3);
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+
 // Function to start the timer
 function startTimer() {
-    timerInterval = setInterval(updateTimer, 10); // Update every 1000 milliseconds (1 second)
+    console.log("Timer started");
+    timerInterval = setInterval(updateTimer, 10);
 }
 
 // Function to stop the timer
 function stopTimer() {
+    console.log("Timer stopped");
     clearInterval(timerInterval);
     timerInterval = undefined;
-    isArrowKeyReleased = true; // Reset the flag when stopping the timer
+    isArrowKeyReleased = true;
 }
 
-// Event listener for arrow key press
 document.addEventListener('keydown', function (event) {
-    // Check if an arrow key is pressed
-    if (event.key.startsWith('Arrow')) {
-        // Start the timer if it hasn't started yet
+    if (event.key.startsWith('Arrow')|| ['w', 'a', 's', 'd'].includes(event.key.toLowerCase())) {
+        if (gameEnded){
+            return;
+        }
         if (!timerInterval) {
             startTimer();
         }
     }
 });
 
-// Event listener for arrow key press and WASD
 $(document).keydown(function (event) {
     var direction;
 
-    // Map arrow keys to directions
     if (event.key.startsWith('Arrow')) {
         direction = event.key.slice(5).toLowerCase();
     }
 
-    // Map WASD keys to directions
     if (event.key.toLowerCase() === 'w') {
         direction = 'up';
     } else if (event.key.toLowerCase() === 's') {
@@ -123,17 +179,13 @@ $(document).keydown(function (event) {
         direction = 'right';
     }
 
-    // Move the user
-    if (direction) {
+    if (direction && isArrowKeyReleased) {
         moveUser(direction);
     }
 });
 
-// Event listener for arrow key release
 $(document).keyup(function (event) {
-    // Check if an arrow key is released
     if (event.key.startsWith('Arrow')) {
-        // Set the flag to true to indicate that the key is released
         isArrowKeyReleased = true;
     }
 });

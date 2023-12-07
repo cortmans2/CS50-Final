@@ -245,3 +245,20 @@ input {
 .info-table {
   margin-right: 5px;
 }
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  padding: 20px;
+  border: 2px solid black;
+  width: 300px; /* Adjust the width as needed */
+  height: 200px; /* Adjust the height as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+.maze-small-cell.user-trail {
+  background-color: rgba(255, 255, 0, 0.5); /* Change color and opacity as needed */
+}

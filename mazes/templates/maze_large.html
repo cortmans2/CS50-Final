@@ -22,12 +22,12 @@
         <!-- Table and Maze -->
         <table class="info-table">
             <tr>
-                <td>Time:</td>
+                <td class="stats">Time:</td>
                 <td><span id="timer">00:00:000</span></td>
             </tr>
             <tr>
-                <td>Moves:</td>
-                <td id="moves">0</td>
+                <td class="stats">Moves:</td>
+                <td><span id="moves">0</td>
             </tr>
         </table>
 
@@ -37,9 +37,9 @@
             {% if cell == '#' %}
             <div class="maze-large-cell wall">{{ cell }}</div>
             {% elif cell == 'O' %}
-            <div class="maze-large-cell user">{{ cell }}</div>
+            <div class="maze-large-cell path user">{{ cell }}</div>
             {% elif cell == 'X' %}
-            <div class="maze-large-cell exit">{{ cell }}</div>
+            <div class="maze-large-cell path exit">{{ cell }}</div>
             {% else %}
             <div class="maze-large-cell path">{{ cell }}</div>
             {% endif %}
