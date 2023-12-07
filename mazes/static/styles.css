@@ -17,6 +17,14 @@ body, h1, h2, h3, p, ul, li {
     width: 90%;
     margin: 0 auto; /* Center the container */
   }
+
+  .leaderboard-container {
+    display: flex;
+}
+
+  .maze-leaderboard {
+      margin-right: 20px; /* Adjust the margin between leaderboards */
+  }
   
   p {
     text-align: center;

@@ -76,6 +76,14 @@ function moveUser(direction) {
         stopTimer();
         isArrowKeyReleased = false;
         showPopup();
+        var time = formattedTotalTime(seconds + milliseconds / 1000);
+        $.post("/add_to_leaderboard", { maze_type: "small", time})
+        .done(function (response) {
+            console.log("Time added to leaderboard:", time);
+        })
+        .fail(function (error) {
+            console.error("Failed to add time to leaderboard:", error);
+        });
         return;
     }
 

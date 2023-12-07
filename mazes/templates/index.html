@@ -35,5 +35,21 @@
             <a href="/create_account">Create Account</a>
         {% endif %}
     </p>
+    <p>
+        <h2>Leaderboard</h2>
+        <div class="leaderboard-container">
+            {% for maze_type, entries in fastest_times.items() %}
+                <div class="maze-leaderboard">
+                    <h3>{{ maze_type | capitalize }} Maze</h3>
+                    <ul>
+                        {% for entry in entries %}
+                            <li>{{ entry.time }} - {{ entry.user.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
+    </p>
 </body>
 </html>
