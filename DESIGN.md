@@ -1,7 +1,9 @@
-design for app.py
+Our project is a flask-based web app which uses many of the same structures as we used in CS50, as well as some extra use of SQLALchemy and Jquery. The majority of app.py consists of many similar functions to those we used in Finance. We use SQLAlchemy to create a users database, storing usernames and hashed versions of the passwords, as well as uniquely generated ids. Then, as we did previously, we interact with this database using SQLAlchemy queries in our python code to allow users to sign up, login, and logout of their accounts. 
 
-design for helpers.py
+In addition to users.db, we also implemented a second database, leaderboard, to allow the program to track data (completion times for different size of mazes) for each user, in order to display them on a leaderboard on the homepage. In order to accomplish this, we integrated Javascript, Flask, and SQLAlchemy to have the Jquery code send a post request to a /add_to_leaderboard route which in turn adds the data to the database and renders it to the homepage. We also have a fairly expansive styles.css document to handle formatting of the maze, timer, leaderboards, and various links and buttons throughout the site using for the most part margins to properly align content.
 
-design for movement(MazeSize)
-    - first do movement
-    - then do timing
+Each html page is receives the maze from our recursive backtracking algorithm in python (in helpers.py), and is formatted onto the page using Jinja. The output from python is blank if a path, a # if it is a wall, O for the user to start, and X for the end. Using Jinja, can interate through each row of the python output, and assign path, wall, user, and exit divs respectively. We used CSS to differentiate the different divs via color and to format it properly.
+
+Each maze html page is further linked to a JavaScript file that contains the movement logic and stats tracking for each size of maze. The main bulk of the maze is the moveUser function which essentially creates an array with the dimensions of the maze. This is then used in conjunction with jQuery to manipulate the classes of the maze cell divs, changing any path ones to user once moved onto. This is further used to provide the trail. If the user div is on the exit div, the game ends, signified by the gameEnded variable, which stops all other stat tracking functions. The movement is initiated with WASD or arrow keys, with safeguards for only one keypress counting if held down, but also updating the moves counter if the user div continues to move while the key is held down. 
+
+Additionally we have functions to start, update and stop the timer. The timer starts once the key is pressed, and it continues to update itself every 10 milliseconds. The timer stops counting when gameEnded is true. Additionally, this time is globally tracked, and used for the popup and insertion into the database for the leaderboard and stats.
