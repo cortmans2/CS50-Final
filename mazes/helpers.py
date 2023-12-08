@@ -1,15 +1,20 @@
 import random
 
+# Maze creation function
 def create_maze(size):
+
+    # Dimensions for small, medium, large
     size_dimensions = {
         'small': (31, 31),
         'medium': (65, 65),
         'large': (81, 81)
     }
 
+    # Define dimensinos
     rows, cols = size_dimensions[size]
     maze = [['#' for _ in range(cols)] for _ in range(rows)]
 
+    # Recursive generation algorithm
     def recursive_backtracker(row, col):
         maze[row][col] = ' '
 
