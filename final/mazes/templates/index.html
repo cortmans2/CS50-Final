@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAC Mazes</title>
+</head>
+<script>
+    console.log("loaded page")
+</script>
+<body>
+    <h1>Welcome to OAC Mazes!</h1>
+    <p>Please choose a difficulty:</p>
+    <form action="/play" method="post">
+        <input type="submit" name="difficulty" value="small">
+        <input type="submit" name="difficulty" value="medium">
+        <input type="submit" name="difficulty" value="large">
+    </form>
+    {% if current_user %}
+        <p>Logged in as: {{ current_user.username }}</p>
+    {% else %}
+        <p>Guest</p>
+    {% endif %}
+    <p>
+        {% if not current_user %}
+        <a href="/login">Login</a>
+        <span class="divider">|</span>
+        {% endif %}
+        {% if current_user %}
+        <a href="/logout">Logout</a>
+        {% endif %}
+        {% if not current_user %}
+            <a href="/create_account">Create Account</a>
+        {% endif %}
+    </p>
+    <p>
+        <h2>Leaderboard</h2>
+        <div class="leaderboard-container">
+            {% for maze_type, entries in fastest_times.items() %}
+                <div class="maze-leaderboard">
+                    <h3>{{ maze_type | capitalize }} Maze</h3>
+                        {% for entry in entries %}
+                            <p>{{ entry.time }} - {{ entry.user.username }}</p>
+                        {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+    </p>
+</body>
+</html>
